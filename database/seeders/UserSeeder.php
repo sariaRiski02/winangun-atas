@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\News;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class NewsSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        News::factory()->count(20)->create();
+        User::factory()->count(5)->create();
     }
 }

@@ -1,5 +1,5 @@
 <!-- Header -->
-<header id="header" class="fixed z-50 left-0 top-0 w-full h-20 flex items-center pt-2 px-3 md:px-15">
+<header id="header" class="fixed z-50 left-0 top-0 w-full h-20 flex items-center pt-2 px-3 lg:px-16 md:px-10 sm:px-10">
     <div class="h-full w-full bg-[#06202B] rounded-[1vw] flex justify-between items-center px-10 shadow-lg">
         <div class="md:hidden flex items-center">
             <button id="toggleSidebar" class="text-white focus:outline-none">
@@ -52,11 +52,11 @@
     </div>
 
     <div id="sidebar"
-    class="h-screen w-55 bg-white fixed left-0 top-0 z-50 flex flex-col px-2 shadow-lg transition-all duration-300 -translate-x-full">
+    class="h-screen w-60 bg-white fixed left-0 top-0 z-50 flex flex-col px-2 shadow-lg transition-all duration-300 -translate-x-full">
     
     <!-- Logo -->
-    <div class="h-16 bg-[#06202B] mt-2 flex items-center gap-3 pl-3 rounded">
-        <span class="text-white font-bold text-lg">Winangun Atas</span>
+    <div class="h-16 bg-[#06202B] mt-2 flex items-center gap-3 pl-3 rounded mb-3">
+        <span class="text-white font-bold text-lg ">Winangun Atas</span>
     </div>
 
     <!-- Navigasi -->
