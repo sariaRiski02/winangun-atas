@@ -15,18 +15,22 @@
         </span>
     </div>
     <div class="w-full">
-        <img src="{{ asset('images/hero.png') }}" alt="Desa Kema III" class="rounded-lg shadow-lg w-full h-auto">
+        <img src="{{ $profile?->hero_photo ? asset($profile?->hero_photo) : asset('images/hero.png') }}" alt="Desa Kema III" class="rounded-lg shadow-lg w-full h-auto">
     </div>
 </section>
 
 <!-- lead of village -->
 <div class="flex flex-col md:flex-row items-center gap-5 h-auto w-full justify-center">
     <div class="w-full md:w-2/3 order-2 md:order-1">
-        <img src="{{ asset('images/kades.png') }}" alt="Leader" class="w-full h-auto">
+        <img src="{{ $profile?->kades_photo ? asset($profile?->kades_photo) : asset('images/kades.png') }}" alt="Leader" class="w-full h-auto">
     </div>
     <div class="flex items-center w-full md:w-auto order-1 md:order-2">
         <p class="md:text-md text-sm w-full text-[#06202B] text-center md:text-left">
-            "Semangat gotong royong yang kuat di Desa Winangun Atas... Lorem ipsum dolor sit amet consectetur adipisicing elit. A aliquam, nostrum commodi cumque voluptatibus, inventore, iste quam nam harum officiis perspiciatis ratione repellat veniam sapiente sint similique eaque nemo dolor! "
+            @if ($profile?->greeting)
+                {{ $profile?->greeting }}
+            @else
+            "Selamat datang di Desa Winangun Atas, tempat di mana tradisi dan kemajuan berjalan beriringan. Kami bangga menjadi bagian dari komunitas yang menjunjung tinggi nilai-nilai kebersamaan, gotong royong, dan keberlanjutan. Mari bersama-sama membangun desa yang lebih baik untuk generasi mendatang."
+            @endif
             <br><br>
             --- Kepala desa Winangun Atas ---
         </p>
@@ -37,14 +41,19 @@
 <section id="news" class="flex flex-col gap-5">
     <h2 class="text-2xl font-bold text-[#06202B] text-center">Berita Terbaru</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        @for ($i = 1; $i <= 3; $i++)
+        @foreach ($news as $item)
         <div class="bg-white rounded-lg shadow-lg p-5">
-            <img src="{{ asset('images/hero.png') }}" alt="News {{ $i }}" class="rounded-lg mb-3">
-            <h3 class="text-lg font-semibold text-[#06202B]">Judul Berita {{ $i }}</h3>
-            <p class="text-sm text-gray-700">Deskripsi singkat berita {{ $i }}...</p>
-            <a href="#" class="text-[#06202B] font-semibold mt-3 inline-block">Baca Selengkapnya</a>
+            <img src="{{ asset($item->image) }}" alt="News {{ $item->title }}" class="rounded-lg mb-3">
+            <h3 class="text-lg font-semibold text-[#06202B]">{{ $item->title }}</h3>
+            
+            <p class="text-sm text-gray-700">{{ Str::limit(strip_tags($item->content), 200, '...') }}</p>
+            <a href="{{ route('content',$item->slug) }}" class="text-[#06202B] font-semibold mt-3 inline-block">Baca Selengkapnya</a>
+            <div class="flex items-center justify-between mt-3 text-gray-500 text-xs">
+                <span>Diperbarui pada: {{ $item->updated_at->format('d M Y') }}</span>
+                <span class="italic">oleh {{ $item->author->name ?? 'Admin' }}</span>
+            </div>
         </div>
-        @endfor
+        @endforeach
     </div>
 </section>
 

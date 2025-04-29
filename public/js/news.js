@@ -1,6 +1,8 @@
 
+
 // Fungsi untuk menampilkan preview gambar
 document.addEventListener('DOMContentLoaded', function() {
+
     document.getElementById('image-upload').addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
@@ -13,5 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             reader.readAsDataURL(file);
         }
     });
+
+
 });
 

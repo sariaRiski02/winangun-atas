@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\GuestController;
-use App\Http\Controllers\NewsController;
-use App\Http\Controllers\ProfileController;
+use App\Models\StructureProfile;
 use App\View\Components\GuestLayout;
 use Illuminate\Support\Facades\Route;
-
-
+use App\Http\Controllers\GeoController;
+use App\Http\Controllers\GovController;
+use App\Http\Controllers\DemoController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -28,12 +31,43 @@ Route::get('/berita', [GuestController::class, 'news'])->name('news');
 Route::get('/berita/content/{news:slug}', [GuestController::class, 'content'])->name('content');
 Route::get('/layanan', [GuestController::class, 'service'])->name('service');
 
+// sejarah 
+Route::get('/sejarah', function () {
+    $structure = StructureProfile::first();
+    return view('app.page.sejarah', compact('structure'));
+})->name('profil.show');
+
 Route::prefix('/dashboard')->group(function () {
-    Route::get('/', function () {
-        return view('app.main-dash');
-    });
+    Route::get('/home', [HomeController::class, 'index'])->name('dash.home');
+    Route::put('/home', [HomeController::class, 'update'])->name('dash.home.update');
+
+    // for news
     Route::get('/berita', [NewsController::class, 'index'])->name('dash.news');
     Route::post('/berita', [NewsController::class, 'store'])->name('dash.news');
+    Route::delete('/berita/delete/{id}', [NewsController::class, 'delete'])->name('dash.news.delete');
+    Route::get('/berita/edit/{id}', [NewsController::class, 'edit'])->name('dash.news.edit');
+    Route::put('/berita/update/{id}', [NewsController::class, 'update'])->name('dash.news.update');
+
+    // for gov
+    Route::get('/pemerintahan', [GovController::class, 'edit'])->name('dash.pemerintahan.edit');
+    Route::put('/pemerintahan', [GovController::class, 'update'])->name('dash.pemerintahan.update');
+
+    // for geo
+    Route::get('/geo', [GeoController::class, 'index'])->name('dash.geo');
+    Route::post('/geo/store-village', [GeoController::class, 'storeVillageArea'])->name('dash.geo.village');
+    Route::post('/geo/store-category', [GeoController::class, 'storeCategory'])->name('dash.geo.category');
+    Route::delete('/geo/delete-category/{id}', [GeoController::class, 'destroyCategory'])->name('dash.geo.category.delete');
+    Route::put('/geo/update-category', [GeoController::class, 'updateCategory'])->name('dash.geo.category.update');
+    Route::post('/dashboard/geo/store-border', [GeoController::class, 'storeBorder'])->name('dash.geo.border.store');
+    Route::delete('/dashboard/geo/delete-border/{id}', [GeoController::class, 'destroyBorder'])->name('dash.geo.border.delete');
+
+
+    // for demo
+    // Tampilkan halaman daftar penduduk
+    Route::get('/demo', [DemoController::class, 'index'])->name('dash.demo');
+    Route::post('/demo/store', [DemoController::class, 'store'])->name('dash.demo.store');
+    Route::post('/demo/import', [DemoController::class, 'import'])->name('dash.demo.import');
+    Route::delete('/demo/delete/{id}', [DemoController::class, 'delete'])->name('dash.demo.delete');
 });
 
 

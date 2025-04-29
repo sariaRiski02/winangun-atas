@@ -3,18 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\GeoCategory;
+use App\Models\HomeProfile;
+use App\Models\VillageInfo;
 use Illuminate\Http\Request;
+use App\Models\VillageBorder;
+use App\Models\StructureProfile;
 
 class GuestController extends Controller
 {
     public function home()
     {
-        return view('app.page.home');
+        $news = News::with('Category')->orderBy('created_at', 'desc')->take(3)->get();
+        $profile = HomeProfile::first();
+
+        return view('app.page.home', compact('news', 'profile'));
     }
 
     public function gov()
     {
-        return view('app.page.gov');
+        $structure = StructureProfile::first();
+        return view('app.page.gov', compact('structure'));
     }
     public function demo()
     {
@@ -22,8 +31,25 @@ class GuestController extends Controller
     }
     public function geo()
     {
-        return view('app.page.geo');
+        $village = VillageInfo::first();
+        $categories = GeoCategory::all();
+        $borders = VillageBorder::all();
+
+        $totalArea = $village ? (float) $village->village_area : 0;
+
+        // Hitung presentase per kategori
+        $categories = $categories->map(function ($item) use ($totalArea) {
+            $item->percentage = $totalArea > 0 ? ($item->area / $totalArea) * 100 : 0;
+            return $item;
+        });
+
+        // Ambil 3 terbesar
+        $topThree = $categories->sortByDesc('percentage')->take(3);
+        $othersPercentage = max(0, 100 - $topThree->sum('percentage'));
+
+        return view('app.page.geo', compact('village', 'categories', 'topThree', 'othersPercentage', 'borders'));
     }
+
     public function news(Request $request)
     {
         if (!$request['query']) {

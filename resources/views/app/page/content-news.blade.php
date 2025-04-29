@@ -4,7 +4,7 @@
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <!-- Featured Image -->
     <div class="aspect-w-16 aspect-h-9 mb-8 rounded-lg overflow-hidden">
-        <img src="{{ asset('images' . $news->image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover">
+        <img src="{{ asset($news->image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover">
     </div>
     
     <!-- Title -->

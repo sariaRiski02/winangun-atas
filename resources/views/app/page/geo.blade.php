@@ -40,32 +40,26 @@
         <div class="text-center mb-10">
             <h2 class="text-3xl font-bold mb-2">Informasi Geografi</h2>
             <div class="w-24 h-1 bg-white mx-auto"></div>
-            <p class="mt-4">Tentang letak dan kondisi geografis Desa Kema 3</p>
+            <p class="mt-4">Tentang letak dan kondisi geografis Desa Winangun Atas</p>
         </div>
         
         <div class="bg-[#04303F] rounded-lg shadow-lg p-8 mb-10">
             <div class="prose max-w-none">
-                <p class="text-lg mb-6">Desa Kema 3 adalah salah satu desa di Kecamatan Makmur, Kabupaten Bahagia yang terletak di bagian utara pesisir pantai Sulawesi dengan luas wilayah 90 Ha.</p>
+                <p class="text-lg mb-6">Desa Winangun Atas adalah salah satu desa di Kecamatan Makmur, Kabupaten Bahagia yang terletak di bagian utara pesisir pantai Sulawesi dengan luas wilayah 90 Ha.</p>
                 
                 <h3 class="text-2xl font-bold text-white mb-4">Batas Wilayah</h3>
+                @if($borders->count())
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div class="bg-[#06202B] p-6 rounded-lg">
-                        <h4 class="font-bold mb-2">Sebelah Utara</h4>
-                        <p>Desa Kema Dua</p>
-                    </div>
-                    <div class="bg-[#06202B] p-6 rounded-lg">
-                        <h4 class="font-bold mb-2">Sebelah Timur</h4>
-                        <p>Laut Maluku</p>
-                    </div>
-                    <div class="bg-[#06202B] p-6 rounded-lg">
-                        <h4 class="font-bold mb-2">Sebelah Selatan</h4>
-                        <p>Desa Lansot</p>
-                    </div>
-                    <div class="bg-[#06202B] p-6 rounded-lg">
-                        <h4 class="font-bold mb-2">Sebelah Barat</h4>
-                        <p>Desa Kema Dua</p>
-                    </div>
+                    @foreach ($borders as $border)
+                        <div class="bg-[#06202B] p-6 rounded-lg">
+                            <h4 class="font-bold mb-2">Sebelah {{ $border->direction }}</h4>
+                            <p>{{ $border->description }}</p>
+                        </div>
+                    @endforeach
                 </div>
+                @else
+                <p class="text-center text-gray-400">Data batas wilayah belum tersedia.</p>
+                @endif
             </div>
         </div>
         
@@ -85,45 +79,25 @@
                     <tbody class="bg-[#04303F] divide-y divide-gray-600">
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">Luas Wilayah</td>
-                            <td class="px-6 py-4 whitespace-nowrap">90 Ha</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $village ? $village->village_area : '-' }} Ha</td>
                             <td class="px-6 py-4 whitespace-nowrap">100%</td>
                         </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Pemukiman</td>
-                            <td class="px-6 py-4 whitespace-nowrap">30 Ha</td>
-                            <td class="px-6 py-4 whitespace-nowrap">33.3%</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Lahan Tidur</td>
-                            <td class="px-6 py-4 whitespace-nowrap">20 Ha</td>
-                            <td class="px-6 py-4 whitespace-nowrap">22.2%</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Tambak/Rawa</td>
-                            <td class="px-6 py-4 whitespace-nowrap">15 Ha</td>
-                            <td class="px-6 py-4 whitespace-nowrap">16.7%</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Lahan Kritis</td>
-                            <td class="px-6 py-4 whitespace-nowrap">5 Ha</td>
-                            <td class="px-6 py-4 whitespace-nowrap">5.6%</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Lahan Hutan</td>
-                            <td class="px-6 py-4 whitespace-nowrap">5 Ha</td>
-                            <td class="px-6 py-4 whitespace-nowrap">5.6%</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Ladang Palawija</td>
-                            <td class="px-6 py-4 whitespace-nowrap">5 Ha</td>
-                            <td class="px-6 py-4 whitespace-nowrap">5.6%</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Perkebunan Tanaman Keras</td>
-                            <td class="px-6 py-4 whitespace-nowrap">5 Ha</td>
-                            <td class="px-6 py-4 whitespace-nowrap">5.6%</td>
-                        </tr>
+                    
+                        @foreach ($categories as $category)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $category->category }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $category->area }} Ha</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @if($village && $village->village_area > 0)
+                                        {{ number_format(($category->area / $village->village_area) * 100, 1) }}%
+                                    @else
+                                        0%
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
+                    
                 </table>
             </div>
             
@@ -131,24 +105,27 @@
             <div class="mt-10">
                 <h3 class="text-xl font-bold mb-6">Visualisasi Penggunaan Lahan</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="bg-[#06202B] text-white p-4 rounded-lg text-center">
-                        <div class="text-3xl font-bold">33.3%</div>
-                        <div>Pemukiman</div>
-                    </div>
-                    <div class="bg-yellow-600 text-white p-4 rounded-lg text-center">
-                        <div class="text-3xl font-bold">22.2%</div>
-                        <div>Lahan Tidur</div>
-                    </div>
-                    <div class="bg-blue-600 text-white p-4 rounded-lg text-center">
-                        <div class="text-3xl font-bold">16.7%</div>
-                        <div>Tambak/Rawa</div>
-                    </div>
+            
+                    @php
+                        $colors = ['bg-[#06202B]', 'bg-yellow-600', 'bg-blue-600', 'bg-green-600', 'bg-pink-600', 'bg-purple-600'];
+                    @endphp
+            
+                    @foreach ($topThree as $index => $item)
+                        <div class="{{ $colors[$index % count($colors)] }} text-white p-4 rounded-lg text-center">
+                            <div class="text-3xl font-bold">{{ number_format($item->percentage, 1) }}%</div>
+                            <div>{{ $item->category }}</div>
+                        </div>
+                    @endforeach
+            
                     <div class="bg-gray-600 text-white p-4 rounded-lg text-center">
-                        <div class="text-3xl font-bold">27.8%</div>
+                        <div class="text-3xl font-bold">{{ number_format($othersPercentage, 1) }}%</div>
                         <div>Lainnya</div>
                     </div>
+            
                 </div>
             </div>
+            
+            
         </div>
     </div>
 </section>
