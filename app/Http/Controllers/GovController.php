@@ -89,6 +89,6 @@ class GovController extends Controller
         $structure->fill($data);
         $structure->save();
 
-        return redirect()->route('dash.structure.edit')->with('success', 'Data struktur desa berhasil diperbarui.');
+        return redirect()->route('dash.pemerintahan.edit')->with('success', 'Data struktur desa berhasil diperbarui.');
     }
 }

@@ -36,7 +36,8 @@
                                 <button type="button" onclick="document.getElementById('structure-photo').click()" class="px-4 py-2 bg-[#06202B] text-white rounded-md hover:bg-[#0a2e3f]">
                                     Pilih Foto Struktur Pemerintahan
                                 </button>
-                                <input id="structure-photo" name="structure_photo" type="file" accept="image/*" class="hidden">
+                                <input id="structure-photo" name="structure_photo" type="file" accept="image/*" class="hidden" onchange="showFileName(this, 'structure-label')">
+                                <p id="structure-label" class="mt-2 text-sm text-gray-600"></p>
                             </div>
                         </div>
                     </div>
@@ -49,7 +50,8 @@
                                 <button type="button" onclick="document.getElementById('bpd-photo').click()" class="px-4 py-2 bg-[#06202B] text-white rounded-md hover:bg-[#0a2e3f]">
                                     Pilih Foto Struktur BPD
                                 </button>
-                                <input id="bpd-photo" name="bpd_photo" type="file" accept="image/*" class="hidden">
+                                <input id="bpd-photo" name="bpd_photo" type="file" accept="image/*" class="hidden" onchange="showFileName(this, 'bpd-label')">
+                                <p id="bpd-label" class="mt-2 text-sm text-gray-600"></p>
                             </div>
                         </div>
                     </div>
@@ -62,7 +64,8 @@
                                 <button type="button" onclick="document.getElementById('pkk-photo').click()" class="px-4 py-2 bg-[#06202B] text-white rounded-md hover:bg-[#0a2e3f]">
                                     Pilih Foto Struktur PKK
                                 </button>
-                                <input id="pkk-photo" name="pkk_photo" type="file" accept="image/*" class="hidden">
+                                <input id="pkk-photo" name="pkk_photo" type="file" accept="image/*" class="hidden" onchange="showFileName(this, 'pkk-label')">
+                                <p id="pkk-label" class="mt-2 text-sm text-gray-600"></p>
                             </div>
                         </div>
                     </div>
@@ -75,7 +78,8 @@
                                 <button type="button" onclick="document.getElementById('karangtaruna-photo').click()" class="px-4 py-2 bg-[#06202B] text-white rounded-md hover:bg-[#0a2e3f]">
                                     Pilih Foto Struktur Karang Taruna
                                 </button>
-                                <input id="karangtaruna-photo" name="karangtaruna_photo" type="file" accept="image/*" class="hidden">
+                                <input id="karangtaruna-photo" name="karangtaruna_photo" type="file" accept="image/*" class="hidden" onchange="showFileName(this, 'karangtaruna-label')">
+                                <p id="karangtaruna-label" class="mt-2 text-sm text-gray-600"></p>
                             </div>
                         </div>
                     </div>
@@ -96,4 +100,16 @@
         </div>
     </main>
 </div>
+
+<!-- Script untuk menampilkan nama file -->
+<script>
+    function showFileName(input, labelId) {
+        const label = document.getElementById(labelId);
+        if (input.files && input.files.length > 0) {
+            label.textContent = `File dipilih: ${input.files[0].name}`;
+        } else {
+            label.textContent = '';
+        }
+    }
+</script>
 @endsection

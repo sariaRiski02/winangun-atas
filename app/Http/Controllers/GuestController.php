@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Resident;
 use App\Models\GeoCategory;
 use App\Models\HomeProfile;
 use App\Models\VillageInfo;
@@ -27,8 +28,75 @@ class GuestController extends Controller
     }
     public function demo()
     {
-        return view('app.page.demo');
+        $residents = Resident::all();
+
+        $total_residents = $residents->count();
+
+        // Hitung total kepala keluarga (berdasarkan status 'Kepala Keluarga' per no_kk unik)
+        $total_heads_of_family = $residents
+            ->where('family_status', 'kepala keluarga')
+            ->groupBy('no_kk')
+            ->count();
+
+        $by_gender = $residents->groupBy('gender')->map(fn($r) => ['label' => $r[0]->gender, 'y' => count($r)])->values();
+        $by_religion = $residents->groupBy('religion')->map(fn($r) => ['label' => $r[0]->religion, 'y' => count($r)])->values();
+        $by_education = $residents->groupBy('education')->map(fn($r) => ['label' => $r[0]->education, 'y' => count($r)])->values();
+        $by_occupation = $residents->groupBy('job')->map(fn($r) => ['label' => $r[0]->job, 'y' => count($r)])->values();
+        $by_marital = $residents->groupBy('marital_status')->map(fn($r) => ['label' => $r[0]->marital_status, 'y' => count($r)])->values();
+        $by_village = $residents->groupBy('village')->map(fn($r) => ['label' => $r[0]->village, 'y' => count($r)])->values();
+        $by_disability = $residents->groupBy('disability')->map(fn($r) => ['label' => $r[0]->disability, 'y' => count($r)])->values();
+
+        // Lansia usia >= 65 (gunakan array biasa agar bisa ++)
+        $elderly = [
+            'Laki-laki' => 0,
+            'Perempuan' => 0
+        ];
+
+        foreach ($residents as $r) {
+            $age = \Carbon\Carbon::parse($r->birth_date)->age;
+            if ($age >= 65 && isset($elderly[$r->gender])) {
+                $elderly[$r->gender]++;
+            }
+        }
+
+        $elderly_data = collect($elderly)->map(fn($y, $label) => ['label' => $label, 'y' => $y])->values();
+
+        // Kelompok usia
+        $by_age_group = [
+            '0-14' => 0,
+            '15-24' => 0,
+            '25-54' => 0,
+            '55-64' => 0,
+            '65+' => 0,
+        ];
+
+        foreach ($residents as $r) {
+            $age = \Carbon\Carbon::parse($r->birth_date)->age;
+            if ($age <= 14) $by_age_group['0-14']++;
+            elseif ($age <= 24) $by_age_group['15-24']++;
+            elseif ($age <= 54) $by_age_group['25-54']++;
+            elseif ($age <= 64) $by_age_group['55-64']++;
+            else $by_age_group['65+']++;
+        }
+
+        $by_age_group = collect($by_age_group)->map(fn($y, $label) => ['label' => $label, 'y' => $y])->values();
+
+        return view('app.page.demo', compact(
+            'total_residents',
+            'total_heads_of_family',
+            'by_gender',
+            'by_religion',
+            'by_education',
+            'by_occupation',
+            'by_marital',
+            'by_village',
+            'by_disability',
+            'by_age_group',
+            'elderly_data'
+        ));
     }
+
+
     public function geo()
     {
         $village = VillageInfo::first();

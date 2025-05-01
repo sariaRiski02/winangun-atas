@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\NewsSeeder;
 use Database\Seeders\UserSeeder;
+use App\Models\RegistrationSetting;
 use Database\Seeders\CategorySeeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +21,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             NewsSeeder::class,
+        ]);
+
+        RegistrationSetting::create([
+            'code' => 'DAFTAR-DESA-2025',
         ]);
     }
 }

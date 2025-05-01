@@ -50,22 +50,41 @@
             </svg>
             <span class="font-semibold text-sm">Berita</span>
         </a>
-        <a href="" class="flex items-center p-3 rounded-lg {{ Route::is('dash.services') ? 'bg-[#06202B] text-white' : '' }}">
+        <a href="{{ route('dash.service') }}" class="flex items-center p-3 rounded-lg {{ Route::is('dash.service') ? 'bg-[#06202B] text-white' : '' }}">
             <!-- Ikon Informasi -->
             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 1010 10A10 10 0 0012 2z"></path>
             </svg>
             <span class="font-semibold text-sm">Layanan</span>
         </a>
-        <button class="cursor-pointer flex items-center p-3 text-red-500 hover:text-red-600 rounded-lg w-full text-left" onclick="confirm('apakah kamu mau keluar?')">
+        
+
+        <a href="{{ route('profile.edit') }}" class="flex items-center p-3 rounded-lg {{ Route::is('profile.edit') ? 'bg-[#06202B] text-white' : '' }}">
+            <!-- Ikon Pengaturan Akun -->
+            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0-8v2m-6 4h12M6 9h12M9 3h6m-6 18h6"></path>
+            </svg>
+            <span class="font-semibold text-sm">Pengaturan Akun</span>
+        </a>
+        @if (auth()->user()->role == 'super_admin')
+        <a href="{{ route('super-admin.edit') }}" class="flex items-center p-3 rounded-lg {{ Route::is('super-admin.edit') ? 'bg-[#06202B] text-white' : '' }}">
+            <!-- Ikon Kunci -->
+            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V7.5a4.5 4.5 0 00-9 0v3m12 3v4.5a3 3 0 01-3 3h-6a3 3 0 01-3-3V13.5a3 3 0 013-3h6a3 3 0 013 3z" />
+            </svg>
+            <span class="font-semibold text-sm">Super Admin</span>
+        </a>
+        @endif
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+        <button type="submit" class="cursor-pointer flex items-center p-3 text-red-500 hover:text-red-600 rounded-lg w-full text-left" onclick="confirm('apakah kamu mau keluar?')">
             <!-- Ikon Keluar -->
             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21V3h12v18M9 9h6"></path>
             </svg>
             <span class="font-semibold text-sm">Keluar</span>
         </button>
-
-        
+        </form>
         
     </div>
 

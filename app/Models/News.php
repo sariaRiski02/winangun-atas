@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -25,12 +26,12 @@ class News extends Model
     {
         static::creating(function ($news) {
             $news->slug = static::generateUniqueSlug($news->title);
-            $news->user_id = User::inRandomOrder()->value('id');
+            $news->user_id = Auth::id() ?? User::inRandomOrder()->value('id');
         });
 
         static::updating(function ($news) {
             $news->slug = static::generateUniqueSlug($news->title, $news->id);
-            $news->user_id = User::inRandomOrder()->value('id');
+            $news->user_id = Auth::id() ?? User::inRandomOrder()->value('id');
         });
     }
 

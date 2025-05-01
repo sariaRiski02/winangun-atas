@@ -5,8 +5,9 @@ namespace App\Imports;
 use App\Models\Resident;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ResidentsImport implements ToModel
+class ResidentsImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -15,17 +16,21 @@ class ResidentsImport implements ToModel
      */
     public function model(array $row)
     {
+
         return new Resident([
-            'name' => $row[0],
-            'no_kk' => $row[1],
-            'nik' => $row[2],
-            'family_status' => $row[3],
-            'marital_status' => $row[4],
-            'job' => $row[5],
-            'birth_date' => Date::excelToDateTimeObject($row[6])->format('Y-m-d'),
-            'religion' => $row[7],
-            'village' => $row[8],
-            'gender' => $row[9],
+            'name'           => strtolower($row['name']),
+            'no_kk'          => preg_replace('/\D/', '', $row['no_kk']),
+            'nik'            => preg_replace('/\D/', '', $row['nik']),
+            'family_status'  => strtolower($row['family_status']),
+            'marital_status' => strtolower($row['marital_status']),
+            'job'            => strtolower($row['job']),
+            'birth_date'     => is_numeric($row['birth_date'])
+                ? Date::excelToDateTimeObject($row['birth_date'])->format('Y-m-d')
+                : date('Y-m-d', strtotime($row['birth_date'])),
+            'religion'       => strtolower($row['religion']),
+            'village'        => strtolower($row['village']),
+            'gender'         => $row['gender'],
+            'education'      => strtolower($row['education']), // 
         ]);
     }
 }
