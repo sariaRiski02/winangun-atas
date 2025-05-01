@@ -5,8 +5,6 @@ deployment:
     - /bin/cp -R * $DEPLOYPATH
     - cd $DEPLOYPATH
     - composer install --no-dev --prefer-dist --no-interaction
-    - npm install
-    - npm run build
     - cp .env.example .env || true
     - php artisan key:generate
     - php artisan config:cache
