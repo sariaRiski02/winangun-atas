@@ -17,8 +17,16 @@ class GuestController extends Controller
     {
         $news = News::with('Category')->orderBy('created_at', 'desc')->take(3)->get();
         $profile = HomeProfile::first();
-
-        return view('app.page.home', compact('news', 'profile'));
+        $men = Resident::where('gender', "Laki-Laki")->count();
+        $women = Resident::where('gender', "Perempuan")->count();
+        $total_residents = Resident::all()->count();
+        return view('app.page.home', compact(
+            'news',
+            'profile',
+            'men',
+            'women',
+            'total_residents'
+        ));
     }
 
     public function gov()

@@ -38,7 +38,7 @@ Route::get('/sejarah', function () {
     return view('app.page.sejarah', compact('structure'));
 })->name('profil.show');
 
-Route::middleware(['auth'])->prefix('/dashboard')->group(function () {
+Route::middleware([])->prefix('/dashboard')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('dash.home');
     Route::put('/home', [HomeController::class, 'update'])->name('dash.home.update');
 

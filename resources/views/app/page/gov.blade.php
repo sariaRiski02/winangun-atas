@@ -34,24 +34,6 @@
                 <p class="text-gray-600 mb-4">
                     {{ Str::limit(strip_tags($structure?->history ?? 'Belum ada sejarah desa.'), 150) }}
                 </p>
-                <div class="grid grid-cols-2 gap-4 mt-6">
-                    <div class="bg-[#edf1ff] p-4 rounded-lg">
-                        <h4 class="font-bold text-[#06202B]">Luas Wilayah</h4>
-                        <p>650 Hektar</p>
-                    </div>
-                    <div class="bg-[#edf1ff] p-4 rounded-lg">
-                        <h4 class="font-bold text-[#06202B]">Jumlah Penduduk</h4>
-                        <p>3.250 Jiwa</p>
-                    </div>
-                    <div class="bg-[#edf1ff] p-4 rounded-lg">
-                        <h4 class="font-bold text-[#06202B]">Jumlah KK</h4>
-                        <p>867 KK</p>
-                    </div>
-                    <div class="bg-[#edf1ff] p-4 rounded-lg">
-                        <h4 class="font-bold text-[#06202B]">Potensi Unggulan</h4>
-                        <p>Pertanian & Wisata</p>
-                    </div>
-                </div>
                 <a href="{{ route('profil.show') }}" class="inline-block mt-6 bg-[#06202B] hover:bg-white hover:text-[#06202B] text-white px-6 py-2 rounded-lg font-semibold transition duration-300">Selengkapnya</a>
             </div>
         </div>

@@ -24,7 +24,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Nama</label>
-                                <input type="text" name="name" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
+                                <input value="{{ old('name') }}" type="text" name="name" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
                                 @error('name')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror
@@ -32,7 +32,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">No KK</label>
-                                <input type="text" name="no_kk" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
+                                <input value="{{ old('no_kk') }}" type="text" name="no_kk" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
                                 @error('no_kk')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror
@@ -40,7 +40,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">No NIK</label>
-                                <input type="text" name="nik" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
+                                <input value="{{ old('nik') }}" type="text" name="nik" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
                                 @error('nik')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror
@@ -77,7 +77,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Pekerjaan</label>
-                                <input type="text" name="job" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
+                                <input value="{{ old('job') }}" type="text" name="job" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
                                 @error('job')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror
@@ -85,7 +85,7 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
-                                <input type="date" name="birth_date" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
+                                <input value="{{ old('birth_date') }}" type="date" name="birth_date" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
                                 @error('birth_date')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror
@@ -124,8 +124,8 @@
                                 <label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
                                 <select name="gender" required class="form-input w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
                                     <option value="">Pilih Jenis Kelamin</option>
-                                    <option value="Laki-laki">Laki-laki</option>
-                                    <option value="Perempuan">Perempuan</option>
+                                    <option value="Laki-laki" {{ old('gender') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                    <option value="Perempuan" {{ old('gender') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                 </select>
                                 @error('gender')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
